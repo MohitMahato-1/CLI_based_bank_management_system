@@ -1,117 +1,39 @@
-# 💳 CLI Bank Management System
+# CLI Bank Management System
 
-A simple **Command-Line Interface (CLI) Bank Management System** built using Python. This project demonstrates core programming concepts such as **Object-Oriented Programming (OOP)**, file handling (TXT), and basic banking operations.
+A small Python CLI project for practicing classes, inheritance, and file-based persistence. It is an educational exercise and is not suitable for handling real money or personal financial information.
 
----
+## Features
 
-## 📌 Features
+- Create savings or current accounts.
+- Deposit and withdraw funds.
+- Check an account balance and view its transaction history.
+- Load account records from `bank_data.txt` at startup and save them when you choose **Exit**.
 
-* Create a new bank account
-* Deposit money
-* Withdraw money
-* Check account balance
-* Simple and interactive CLI-based interface
+New account numbers are generated in the form `ACC1000`, `ACC1001`, and so on.
 
----
+## Run
 
-## 🛠️ Tech Stack
+Requires Python 3. No third-party packages are needed.
 
-* **Language:** Python
-* **Concepts Used:**
-
-  * Object-Oriented Programming (Classes & Objects)
-  * File Handling (TXT)
-  * Exception Handling
-
----
-
-## 📂 Project Structure
-
-```
-CLI_Bank_Management/
-│
-├── main.py              # Entry point of the program
-├── data.txt            # Stores user account data
-└── README.md            # Project documentation
+```bash
+python Cli_based_bank_management.py
 ```
 
----
+Use the numbered menu to create an account, then enter its account number for deposits, withdrawals, balance checks, or transaction history. Choose **Exit** to save the current account records.
 
-## ⚙️ How It Works
+## Project files
 
-1. User runs the program through terminal.
-2. Menu is displayed with options:
+```text
+.
+├── Cli_based_bank_management.py
+├── bank_data.txt
+└── README.md
+```
 
-   * Create Account
-   * Deposit
-   * Withdraw
-   * Check Balance
-3. User selects an option.
-4. Data is processed and stored/retrieved from a Text file.
-5. Results are displayed instantly in the CLI.
+## Storage and limitations
 
----
-
-## ▶️ How to Run
-
-1. Clone the repository:
-
-   ```
-   git clone https://github.com/your-username/CLI_Bank_Management.git
-   ```
-
-2. Navigate to the project folder:
-
-   ```
-   cd CLI_Bank_Management
-   ```
-
-3. Run the program:
-
-   ```
-   python main.py
-   ```
-
----
-
-## 🎯 Learning Objectives
-
-This project helps in understanding:
-
-* Structuring a real-world application using OOP
-* Managing persistent data using text file
-* Writing clean and modular Python code
-* Building interactive CLI applications
-
----
-
-## ⚠️ Limitations
-
-* No database (uses Text file only)
-* No authentication system
-* Basic validation only
-* Not suitable for production use
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome. Feel free to fork this repo and improve the system.
-
----
-
-## 📄 License
-
-This project is open-source and available under the MIT License.
-
----
-
-## 💡 Author
-
-**Mohit Mahato**
-
----
-
-## ⭐ Support
-
-If you found this project helpful, consider giving it a star!
+- Account names, balances, and transaction histories are stored as plain text in `bank_data.txt`.
+- Data is saved when the **Exit** menu option is selected; an abrupt close may lose changes made during that run.
+- There is no login, authentication, database, or encryption. Do not use real account details or balances.
+- The current-account overdraft path is not complete, so overdrafts should be treated as unsupported.
+- This is a learning project, not a secure or production banking system.
