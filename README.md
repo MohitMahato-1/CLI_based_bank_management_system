@@ -1,39 +1,63 @@
 # CLI Bank Management System
 
-A small Python CLI project for practicing classes, inheritance, and file-based persistence. It is an educational exercise and is not suitable for handling real money or personal financial information.
+A small Python application for practicing classes, inheritance, input validation, and persistent storage. Create savings/current accounts, deposit or withdraw decimal amounts, and inspect balances and transaction history.
 
-## Features
-
-- Create savings or current accounts.
-- Deposit and withdraw funds.
-- Check an account balance and view its transaction history.
-- Load account records from `bank_data.txt` at startup and save them when you choose **Exit**.
-
-New account numbers are generated in the form `ACC1000`, `ACC1001`, and so on.
+**Educational only:** no login, access control, encryption, or real payment processing. Use fictional names and amounts.
 
 ## Run
 
-Requires Python 3. No third-party packages are needed.
+Python 3.11+; no third-party packages are required.
 
 ```bash
+git clone https://github.com/MohitMahato-1/CLI_based_bank_management_system.git
+cd CLI_based_bank_management_system
 python Cli_based_bank_management.py
 ```
 
-Use the numbered menu to create an account, then enter its account number for deposits, withdrawals, balance checks, or transaction history. Choose **Exit** to save the current account records.
+The menu provides creation, deposit, withdrawal, balance, transaction history, and exit options. Successful changes are saved after each operation.
 
-## Project files
+Example inputs for a current account:
 
 ```text
-.
-├── Cli_based_bank_management.py
-├── bank_data.txt
-└── README.md
+Enter choice: 1
+Enter name: Demo User
+Enter initial balance: 100
+Enter type (savings/current): current
+Enter interest rate or overdraft limit: 500
+Account created: ACC1000
+
+Enter choice: 3
+Enter account number: ACC1000
+Enter amount: 200
+Balance: -100.00
 ```
 
-## Storage and limitations
+A further withdrawal of 400 reaches the -500 limit; a withdrawal beyond that limit is rejected. Savings accounts cannot have negative balances. Invalid numbers, non-finite values, negative amounts, and amounts with more than two decimal places produce a validation message and return to the menu.
 
-- Account names, balances, and transaction histories are stored as plain text in `bank_data.txt`.
-- Data is saved when the **Exit** menu option is selected; an abrupt close may lose changes made during that run.
-- There is no login, authentication, database, or encryption. Do not use real account details or balances.
-- The current-account overdraft path is not complete, so overdrafts should be treated as unsupported.
-- This is a learning project, not a secure or production banking system.
+## How it works
+
+- `Account` implements shared balance and transaction operations.
+- `SavingsAccount` stores an interest rate. `add_interest()` is available in Python; the menu does not apply interest automatically.
+- `CurrentAccount` supplies an overdraft minimum to the shared withdrawal logic.
+- `Bank` assigns account numbers and loads/saves a versioned JSON document.
+- `Decimal` represents money in cents. Interest uses half-up rounding to the nearest cent.
+
+## Storage
+
+`bank_data.json` is created in the current working directory and is ignored by Git. It preserves account type, owner, balance, interest rate or overdraft limit, and transaction history. JSON safely handles names containing pipes, commas, or Unicode characters.
+
+Saving writes a temporary file and then replaces the previous file, reducing the chance of leaving a partial document. Malformed saved data is rejected instead of silently discarded. This is still a single-user local file: there is no concurrent-writer support, backup service, or secure audit trail.
+
+Earlier versions used `bank_data.txt`, which did not preserve custom account settings. An empty old file is harmless. If a nonempty legacy file exists and no JSON file exists, startup stops with an explanation so records are not silently replaced. Keep a backup and recreate fictional demo accounts with the intended settings; lost settings cannot be inferred reliably.
+
+## Checks
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Tests cover overdraft boundaries, exact decimal arithmetic, invalid input, persistence of custom settings, names containing separators, corrupted files, failed file replacement, and recovery from an invalid CLI input. A GitHub Actions workflow runs the suite on Python 3.11 and 3.12 when enabled on the remote repository.
+
+## Current limits
+
+This is a learning exercise, not a production banking system. Transaction history is a list of messages, not an immutable financial ledger. There are no transfers, scheduled interest calculations, authentication, or database transactions.

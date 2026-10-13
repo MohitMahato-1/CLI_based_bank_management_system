@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+.venv/
+bank_data.json
+bank_data.txt
+.bank-*.tmp
